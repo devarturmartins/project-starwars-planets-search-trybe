@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Home() {
-  const { isLoading, dataPlanet } = useContext(AppContext);
+  const { isLoading, dataPlanet, searchPlanet, activeFilter } = useContext(AppContext);
   const { results } = dataPlanet;
   return (
     <div>
@@ -28,7 +28,7 @@ function Home() {
               </tr>
             </thead>
             {
-              results?.map((e, i) => (
+              (activeFilter ? searchPlanet : results)?.map((e, i) => (
                 <tbody key={ i }>
                   <tr>
                     <td>{ e.name }</td>
