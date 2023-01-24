@@ -6,6 +6,7 @@ function Filter() {
     filterNamePlanets,
     filterClass,
     clickFilter,
+    searchByClass,
   } = useContext(appContext);
   // const { results } = dataPlanet;
 
@@ -34,6 +35,7 @@ function Filter() {
       </select>
       <input
         onChange={ filterClass }
+        value={ searchByClass.number }
         name="number"
         type="number"
         data-testid="value-filter"

@@ -4,12 +4,13 @@ import AppContext from '../context/AppContext';
 function Home() {
   const {
     isLoading,
-    dataPlanet,
+    // dataPlanet,
     searchPlanet,
     activeFilter,
     planetsFilteredState,
   } = useContext(AppContext);
-  const { results } = dataPlanet;
+  // const { results } = dataPlanet;
+
   return (
     <div>
       { isLoading
@@ -34,7 +35,7 @@ function Home() {
               </tr>
             </thead>
             {
-              (activeFilter ? searchPlanet : results)?.map((e, i) => (
+              (activeFilter ? searchPlanet : planetsFilteredState)?.map((e, i) => (
                 <tbody key={ i }>
                   <tr>
                     <td>{ e.name }</td>

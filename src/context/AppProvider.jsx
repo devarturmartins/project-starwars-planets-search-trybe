@@ -21,6 +21,7 @@ function AppProvider({ children }) {
       const resposta = await makeFetch(url);
       resposta.results.forEach((e) => delete e.residents);
       setDataPlanet(resposta);
+      setPlanetsFilteredState(resposta.results);
     };
     responseApi('https://swapi.dev/api/planets');
   }, []);
@@ -86,7 +87,9 @@ function AppProvider({ children }) {
   }), [
     isLoading,
     errors,
-    dataPlanet, searchPlanet, searchPlanet, activeFilter, filterClass, searchByClass]);
+    dataPlanet,
+    searchPlanet,
+    searchPlanet, activeFilter, filterClass, searchByClass, planetsFilteredState]);
 
   return (
     <AppContext.Provider value={ values }>
