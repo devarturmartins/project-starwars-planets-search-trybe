@@ -49,21 +49,21 @@ function AppProvider({ children }) {
 
   const clickFilter = () => {
     // console.log(searchByClass);
-    const { results } = dataPlanet;
+    // const { results } = dataPlanet;
     if (searchByClass.comparison === 'maior que') {
-      const planetsFiltered = results.filter((planetas) => (
+      const planetsFiltered = planetsFilteredState.filter((planetas) => (
         +(planetas[searchByClass.column]) > +(searchByClass.number)
       ));
       setPlanetsFilteredState(planetsFiltered);
     }
     if (searchByClass.comparison === 'menor que') {
-      const planetsFiltered = results.filter((planetas) => (
+      const planetsFiltered = planetsFilteredState.filter((planetas) => (
         +(planetas[searchByClass.column]) < +(searchByClass.number)
       ));
       setPlanetsFilteredState(planetsFiltered);
     }
     if (searchByClass.comparison === 'igual a') {
-      const planetsFiltered = results.filter((planetas) => (
+      const planetsFiltered = planetsFilteredState.filter((planetas) => (
         +(planetas[searchByClass.column]) === +(searchByClass.number)
       ));
       setPlanetsFilteredState(planetsFiltered);
