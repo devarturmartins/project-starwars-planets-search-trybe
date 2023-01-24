@@ -2,7 +2,13 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Home() {
-  const { isLoading, dataPlanet, searchPlanet, activeFilter } = useContext(AppContext);
+  const {
+    isLoading,
+    dataPlanet,
+    searchPlanet,
+    activeFilter,
+    planetsFilteredState,
+  } = useContext(AppContext);
   const { results } = dataPlanet;
   return (
     <div>
