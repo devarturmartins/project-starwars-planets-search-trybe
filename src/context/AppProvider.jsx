@@ -13,6 +13,8 @@ function AppProvider({ children }) {
     number: 0,
   });
   const [planetsFilteredState, setPlanetsFilteredState] = useState([]);
+  const [valuesOptions, setValuesOptions] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const { errors, isLoading, makeFetch } = useFetch();
   const [activeFilter, setActiveFilter] = useState(false);
 
@@ -40,14 +42,22 @@ function AppProvider({ children }) {
     setSearchPlanet(filterName);
   };
 
+  const removeOptions = (e) => {
+    const selection = e.target.value;
+    const index = valuesOptions.indexOf(selection);
+    return index;
+    // newArray.push(valuesOptions.splice(0, selection));
+  };
+
   const filterClass = (e) => {
     setSearchByClass({
       ...searchByClass,
       [e.target.name]: e.target.value,
     });
+    removeOptions(e);
   };
 
-  const clickFilter = () => {
+  const clickFilter = (e) => {
     // console.log(searchByClass);
     // const { results } = dataPlanet;
     if (searchByClass.comparison === 'maior que') {
@@ -55,6 +65,9 @@ function AppProvider({ children }) {
         +(planetas[searchByClass.column]) > +(searchByClass.number)
       ));
       setPlanetsFilteredState(planetsFiltered);
+      // const newArray = [];
+      // const index = removeOptions(e);
+      // console.log(index);
     }
     if (searchByClass.comparison === 'menor que') {
       const planetsFiltered = planetsFilteredState.filter((planetas) => (
@@ -84,12 +97,19 @@ function AppProvider({ children }) {
     searchByClass,
     clickFilter,
     planetsFilteredState,
+    valuesOptions,
   }), [
     isLoading,
     errors,
     dataPlanet,
     searchPlanet,
-    searchPlanet, activeFilter, filterClass, searchByClass, planetsFilteredState]);
+    searchPlanet,
+    activeFilter,
+    filterClass,
+    searchByClass,
+    planetsFilteredState,
+    valuesOptions,
+  ]);
 
   return (
     <AppContext.Provider value={ values }>

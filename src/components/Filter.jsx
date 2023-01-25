@@ -7,6 +7,7 @@ function Filter() {
     filterClass,
     clickFilter,
     searchByClass,
+    valuesOptions,
   } = useContext(appContext);
   // const { results } = dataPlanet;
 
@@ -18,11 +19,12 @@ function Filter() {
         type="text"
       />
       <select name="column" onChange={ filterClass } data-testid="column-filter">
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {
+          valuesOptions.map((e) => (
+            <option key={ e } value={ e }>{ e }</option>
+          ))
+        }
+
       </select>
       <select
         onChange={ filterClass }
