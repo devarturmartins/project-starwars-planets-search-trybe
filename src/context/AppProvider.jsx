@@ -42,46 +42,41 @@ function AppProvider({ children }) {
     setSearchPlanet(filterName);
   };
 
-  const removeOptions = (e) => {
-    const selection = e.target.value;
-    const index = valuesOptions.indexOf(selection);
-    return index;
-    // newArray.push(valuesOptions.splice(0, selection));
-  };
-
   const filterClass = (e) => {
     setSearchByClass({
       ...searchByClass,
       [e.target.name]: e.target.value,
     });
-    removeOptions(e);
   };
 
-  const clickFilter = (e) => {
-    // console.log(searchByClass);
-    // const { results } = dataPlanet;
+  const clickFilter = () => {
     if (searchByClass.comparison === 'maior que') {
       const planetsFiltered = planetsFilteredState.filter((planetas) => (
         +(planetas[searchByClass.column]) > +(searchByClass.number)
       ));
       setPlanetsFilteredState(planetsFiltered);
-      // const newArray = [];
-      // const index = removeOptions(e);
-      // console.log(index);
+      const ppla = valuesOptions.filter((e) => e !== searchByClass.column);
+      setValuesOptions(ppla);
+      setSearchByClass({ ...searchByClass, column: valuesOptions[0] });
     }
     if (searchByClass.comparison === 'menor que') {
       const planetsFiltered = planetsFilteredState.filter((planetas) => (
         +(planetas[searchByClass.column]) < +(searchByClass.number)
       ));
       setPlanetsFilteredState(planetsFiltered);
+      const ppla = valuesOptions.filter((e) => e !== searchByClass.column);
+      setValuesOptions(ppla);
+      setSearchByClass({ ...searchByClass, column: valuesOptions[0] });
     }
     if (searchByClass.comparison === 'igual a') {
       const planetsFiltered = planetsFilteredState.filter((planetas) => (
         +(planetas[searchByClass.column]) === +(searchByClass.number)
       ));
       setPlanetsFilteredState(planetsFiltered);
+      const ppla = valuesOptions.filter((e) => e !== searchByClass.column);
+      setValuesOptions(ppla);
+      setSearchByClass({ ...searchByClass, column: valuesOptions[0] });
     }
-    // return planetsFilteredState;
   };
 
   const values = useMemo(() => ({
@@ -91,10 +86,10 @@ function AppProvider({ children }) {
     dataPlanet,
     searchPlanet,
     handleChange,
+    searchByClass,
     filterNamePlanets,
     activeFilter,
     filterClass,
-    searchByClass,
     clickFilter,
     planetsFilteredState,
     valuesOptions,
