@@ -15,6 +15,7 @@ function AppProvider({ children }) {
   const [planetsFilteredState, setPlanetsFilteredState] = useState([]);
   const [valuesOptions, setValuesOptions] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [filtrosSelecionados, setFiltrosSelecionados] = useState([]);
   const { errors, isLoading, makeFetch } = useFetch();
   const [activeFilter, setActiveFilter] = useState(false);
 
@@ -57,6 +58,7 @@ function AppProvider({ children }) {
       setPlanetsFilteredState(planetsFiltered);
       const ppla = valuesOptions.filter((e) => e !== searchByClass.column);
       setValuesOptions(ppla);
+      setFiltrosSelecionados([searchByClass]);
       setSearchByClass({ ...searchByClass, column: valuesOptions[0] });
     }
     if (searchByClass.comparison === 'menor que') {
@@ -93,6 +95,7 @@ function AppProvider({ children }) {
     clickFilter,
     planetsFilteredState,
     valuesOptions,
+    filtrosSelecionados,
   }), [
     isLoading,
     errors,
@@ -104,6 +107,7 @@ function AppProvider({ children }) {
     searchByClass,
     planetsFilteredState,
     valuesOptions,
+    filtrosSelecionados,
   ]);
 
   return (

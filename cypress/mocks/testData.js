@@ -1,4 +1,4 @@
-const testData = {
+export const testData = {
   count: 60,
   next: 'https://swapi-trybe.herokuapp.com/api/planets/?page=2',
   previous: null,
