@@ -42,12 +42,57 @@ function AppProvider({ children }) {
       .includes(planet.toLowerCase()));
     setSearchPlanet(filterName);
   };
-
   const filterClass = (e) => {
     setSearchByClass({
       ...searchByClass,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const aaa = (idColumn, selected) => {
+    if (idColumn.comparison === 'maior que') {
+      const newPlanetList = selected.map((e) => {
+        const planetsFiltered = dataPlanet.results.filter((planetas) => (
+          +(planetas[e.column]) > +(e.number)
+        ));
+        return planetsFiltered;
+      });
+      console.log(newPlanetList);
+      setPlanetsFilteredState(newPlanetList);
+    }
+    if (idColumn.comparison === 'menor que') {
+      const newPlanetList = selected.map((e) => {
+        const planetsFiltered = dataPlanet.results.filter((planetas) => (
+          +(planetas[e.column]) < +(e.number)
+        ));
+        return planetsFiltered;
+      });
+      setPlanetsFilteredState(newPlanetList);
+    }
+    if (idColumn.comparison === 'igual a') {
+      const newPlanetList = selected.map((e) => {
+        const planetsFiltered = dataPlanet.results.filter((planetas) => (
+          +(planetas[e.column]) === +(e.number)
+        ));
+        return planetsFiltered;
+      });
+      setPlanetsFilteredState(newPlanetList);
+    }
+  };
+
+  const deleteFilter = (idColumn) => {
+    const selected = filtrosSelecionados.filter((e) => e.column !== idColumn.column);
+    setFiltrosSelecionados(selected);
+    setValuesOptions([...valuesOptions, idColumn.column]);
+    aaa(idColumn, selected);
+    // setSearchByClass(selected);
+  };
+
+  const removeAllFilter = () => {
+    setFiltrosSelecionados([]);
+    setValuesOptions([
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+    setPlanetsFilteredState(dataPlanet.results);
   };
 
   const clickFilter = () => {
@@ -58,7 +103,7 @@ function AppProvider({ children }) {
       setPlanetsFilteredState(planetsFiltered);
       const ppla = valuesOptions.filter((e) => e !== searchByClass.column);
       setValuesOptions(ppla);
-      setFiltrosSelecionados([searchByClass]);
+      setFiltrosSelecionados([...filtrosSelecionados, searchByClass]);
       setSearchByClass({ ...searchByClass, column: valuesOptions[0] });
     }
     if (searchByClass.comparison === 'menor que') {
@@ -68,6 +113,7 @@ function AppProvider({ children }) {
       setPlanetsFilteredState(planetsFiltered);
       const ppla = valuesOptions.filter((e) => e !== searchByClass.column);
       setValuesOptions(ppla);
+      setFiltrosSelecionados([...filtrosSelecionados, searchByClass]);
       setSearchByClass({ ...searchByClass, column: valuesOptions[0] });
     }
     if (searchByClass.comparison === 'igual a') {
@@ -77,9 +123,12 @@ function AppProvider({ children }) {
       setPlanetsFilteredState(planetsFiltered);
       const ppla = valuesOptions.filter((e) => e !== searchByClass.column);
       setValuesOptions(ppla);
+      setFiltrosSelecionados([...filtrosSelecionados, searchByClass]);
       setSearchByClass({ ...searchByClass, column: valuesOptions[0] });
     }
   };
+
+  // useEffect(() => {}, [planetsFilteredState]);
 
   const values = useMemo(() => ({
     isLoading,
@@ -96,6 +145,8 @@ function AppProvider({ children }) {
     planetsFilteredState,
     valuesOptions,
     filtrosSelecionados,
+    deleteFilter,
+    removeAllFilter,
   }), [
     isLoading,
     errors,

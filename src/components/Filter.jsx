@@ -9,9 +9,10 @@ function Filter() {
     searchByClass,
     valuesOptions,
     filtrosSelecionados,
+    deleteFilter,
+    removeAllFilter,
   } = useContext(appContext);
   // const { results } = dataPlanet;
-
   return (
     <div>
       <input
@@ -44,11 +45,21 @@ function Filter() {
         data-testid="value-filter"
       />
       <button onClick={ clickFilter } data-testid="button-filter">Filtrar</button>
+      <button
+        onClick={ () => removeAllFilter() }
+        data-testid="button-remove-filters"
+      >
+        Remover Filtros
+      </button>
       {
         filtrosSelecionados?.map((e, i) => (
           <div key={ i } data-testid="filter">
             <span>{ `${e.column} ${e.comparison} ${e.number}` }</span>
-            <button>Apagar filtro</button>
+            <button
+              onClick={ () => deleteFilter(e) }
+            >
+              Apagar filtro
+            </button>
           </div>
         ))
       }

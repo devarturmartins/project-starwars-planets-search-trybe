@@ -71,20 +71,22 @@ describe('Testa a aplicação', () => {
   })
   test('Testa se os filtros de input e dropdown existem', async () => {
     render(<App />);
-    await waitFor(() => expect(global.fetch).toBeCalled());
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalled()
+      const button = screen.getByRole('button', {
+        name: /filtrar/i
+      });
+      expect(button).toBeInTheDocument();
+    });
     // const input = screen.getByTestId("name-filter");
     // const column = screen.getByTestId("column-filter");
     // const comparison = screen.getByTestId("comparison-filter");
     // const number = screen.getByTestId("value-filter");
-    const button = screen.getByRole('button', {
-      name: /filtrar/i
-    });
 
     // expect(input).toBeInTheDocument();
     // expect(column).toBeInTheDocument();
     // expect(comparison).toBeInTheDocument();
     // expect(number).toBeInTheDocument();
-    expect(button).toBeInTheDocument();
   })
 });
  
