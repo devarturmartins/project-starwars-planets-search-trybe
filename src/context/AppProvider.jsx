@@ -57,8 +57,7 @@ function AppProvider({ children }) {
         ));
         return planetsFiltered;
       });
-      console.log(newPlanetList);
-      setPlanetsFilteredState(newPlanetList);
+      setPlanetsFilteredState(...newPlanetList);
     }
     if (idColumn.comparison === 'menor que') {
       const newPlanetList = selected.map((e) => {
@@ -67,7 +66,7 @@ function AppProvider({ children }) {
         ));
         return planetsFiltered;
       });
-      setPlanetsFilteredState(newPlanetList);
+      setPlanetsFilteredState(...newPlanetList);
     }
     if (idColumn.comparison === 'igual a') {
       const newPlanetList = selected.map((e) => {
@@ -76,7 +75,10 @@ function AppProvider({ children }) {
         ));
         return planetsFiltered;
       });
-      setPlanetsFilteredState(newPlanetList);
+      setPlanetsFilteredState(...newPlanetList);
+    }
+    if (selected.length === 0) {
+      setPlanetsFilteredState(dataPlanet.results);
     }
   };
 
@@ -84,6 +86,7 @@ function AppProvider({ children }) {
     const selected = filtrosSelecionados.filter((e) => e.column !== idColumn.column);
     setFiltrosSelecionados(selected);
     setValuesOptions([...valuesOptions, idColumn.column]);
+    setSearchByClass({ column: valuesOptions[0], comparison: 'maior que', number: '0' });
     aaa(idColumn, selected);
     // setSearchByClass(selected);
   };
