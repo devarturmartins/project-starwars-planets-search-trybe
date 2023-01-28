@@ -3,7 +3,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import App from '../App';
 import { act } from 'react-dom/test-utils';
 import AppProvider from '../context/AppProvider';
+import Filter from '../components/Filter';
+import Home from '../components/Home';
 import testData from '../../cypress/mocks/testData';
+import userEvent from '@testing-library/user-event';
 // test('I am your test', () => {
 //   render(<App />);
 //   const linkElement = screen.getByText(/Hello, App!/i);
@@ -63,30 +66,84 @@ describe('Testa a aplicação', () => {
     });
     await act(async () => {
       render(
-        <App />
-      )
-      
+        <App>
+          <AppProvider>
+            <Filter />
+            <Home />
+          </AppProvider>
+        </App>
+      )   
     })
 
   })
-  test('Testa se os filtros de input e dropdown existem', async () => {
-    render(<App />);
+
+  afterEach(() => jest.restoreAllMocks());
+  test('Testa se os filtros e os botões de input e dropdown existem', async () => {
+    // render(<App />);
     await waitFor(() => {
       expect(fetch).toHaveBeenCalled()
     });
     const button = screen.getByRole('button', {
       name: /filtrar/i
     });
-    expect(button).toBeInTheDocument();
-    // const input = screen.getByTestId("name-filter");
-    // const column = screen.getByTestId("column-filter");
-    // const comparison = screen.getByTestId("comparison-filter");
-    // const number = screen.getByTestId("value-filter");
+    const input = screen.getByTestId("name-filter");
+    const column = screen.getByTestId("column-filter");
+    const comparison = screen.getByTestId("comparison-filter");
+    const number = screen.getByTestId("value-filter");
+    const buttonRemoveFilter = screen.getByRole('button', {
+      name: /remover filtros/i
+    });
 
-    // expect(input).toBeInTheDocument();
-    // expect(column).toBeInTheDocument();
-    // expect(comparison).toBeInTheDocument();
-    // expect(number).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
+    expect(column).toBeInTheDocument();
+    expect(comparison).toBeInTheDocument();
+    expect(number).toBeInTheDocument();
+    expect(button).toBeInTheDocument();
+    expect(buttonRemoveFilter).toBeInTheDocument();
+  })
+
+  test('Testa se a table é renderizada', async () => {
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalled()
+    });
+    const table = screen.getByRole('table');
+    expect(table).toBeInTheDocument();
+  })
+
+  test('Testa o filtro de Search com o nome "Tatooine"', async () => {
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalled()
+    });
+    const input = screen.getByTestId("name-filter");
+    act(() => {
+      userEvent.type(input, 'tatooine');
+    })
+    const planet = screen.getByRole('cell', {
+      name: /tatooine/i
+    });
+    expect(planet).toBeInTheDocument();
+  })
+  test('Testa os filtros de dropdown', async () => {
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalled()
+    });
+    const column = screen.getByTestId("column-filter");
+    const comparison = screen.getByTestId("comparison-filter");
+    const number = screen.getByTestId("value-filter");
+    const button = screen.getByRole('button', {
+      name: /filtrar/i
+    });
+    act(() => {
+      userEvent.selectOptions(column, 'population');
+      userEvent.selectOptions(comparison, 'maior que');
+      userEvent.type(number, '1000000');
+      userEvent.click(button);
+    })
+    const buttonFilter = screen.getByRole('button', {
+      name: /apagar filtro/i
+    })
+    expect(buttonFilter).toBeInTheDocument();
+
   })
 });
  
