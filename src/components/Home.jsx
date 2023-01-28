@@ -10,7 +10,7 @@ function Home() {
     planetsFilteredState,
   } = useContext(AppContext);
   // const { results } = dataPlanet;
-  console.log(planetsFilteredState);
+  // console.log(planetsFilteredState);
 
   // useEffect(() => console.log(planetsFilteredState), [planetsFilteredState]);
 

@@ -49,45 +49,65 @@ function AppProvider({ children }) {
     });
   };
 
-  const aaa = (idColumn, selected) => {
-    if (idColumn.comparison === 'maior que') {
-      const newPlanetList = selected.map((e) => {
+  const aaa = (selected) => {
+    selected.forEach((e) => {
+      if (e.comparison === 'maior que') {
         const planetsFiltered = dataPlanet.results.filter((planetas) => (
           +(planetas[e.column]) > +(e.number)
         ));
-        return planetsFiltered;
-      });
-      setPlanetsFilteredState(...newPlanetList);
-    }
-    if (idColumn.comparison === 'menor que') {
-      const newPlanetList = selected.map((e) => {
+        setPlanetsFilteredState(planetsFiltered);
+      }
+      if (e.comparison === 'menor que') {
         const planetsFiltered = dataPlanet.results.filter((planetas) => (
           +(planetas[e.column]) < +(e.number)
         ));
-        return planetsFiltered;
-      });
-      setPlanetsFilteredState(...newPlanetList);
-    }
-    if (idColumn.comparison === 'igual a') {
-      const newPlanetList = selected.map((e) => {
+        setPlanetsFilteredState(planetsFiltered);
+      }
+      if (e.comparison === 'igual a') {
         const planetsFiltered = dataPlanet.results.filter((planetas) => (
           +(planetas[e.column]) === +(e.number)
         ));
-        return planetsFiltered;
-      });
-      setPlanetsFilteredState(...newPlanetList);
-    }
+        setPlanetsFilteredState(planetsFiltered);
+      }
+    });
     if (selected.length === 0) {
       setPlanetsFilteredState(dataPlanet.results);
     }
   };
+    // if (idColumn.comparison === 'maior que') {
+    //   const newPlanetList = selected.map((e) => {
+    //   const planetsFiltered = dataPlanet.results.filter((planetas) => (
+    //     +(planetas[e.column]) > +(e.number)
+    //   ));
+    //   return planetsFiltered;
+    // });
+    // setPlanetsFilteredState(...newPlanetList);
+    // }
+    // if (idColumn.comparison === 'menor que') {
+    //   const newPlanetList = selected.map((e) => {
+    //     const planetsFiltered = dataPlanet.results.filter((planetas) => (
+    //       +(planetas[e.column]) < +(e.number)
+    //     ));
+    //     return planetsFiltered;
+    //   });
+    //   setPlanetsFilteredState(...newPlanetList);
+    // }
+    // if (idColumn.comparison === 'igual a') {
+    //   const newPlanetList = selected.map((e) => {
+    //     const planetsFiltered = dataPlanet.results.filter((planetas) => (
+    //       +(planetas[e.column]) === +(e.number)
+    //     ));
+    //     return planetsFiltered;
+    //   });
+    //   setPlanetsFilteredState(...newPlanetList);
+    // }
 
   const deleteFilter = (idColumn) => {
     const selected = filtrosSelecionados.filter((e) => e.column !== idColumn.column);
     setFiltrosSelecionados(selected);
     setValuesOptions([...valuesOptions, idColumn.column]);
     setSearchByClass({ column: valuesOptions[0], comparison: 'maior que', number: '0' });
-    aaa(idColumn, selected);
+    aaa(selected);
     // setSearchByClass(selected);
   };
 
