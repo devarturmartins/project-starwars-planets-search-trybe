@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { getAllByTestId, render, screen, waitFor } from '@testing-library/react';
 import App from '../App';
 import { act } from 'react-dom/test-utils';
 import AppProvider from '../context/AppProvider';
@@ -134,16 +134,65 @@ describe('Testa a aplicação', () => {
       name: /filtrar/i
     });
     act(() => {
-      userEvent.selectOptions(column, 'population');
-      userEvent.selectOptions(comparison, 'maior que');
-      userEvent.type(number, '1000000');
+      userEvent.selectOptions(column, 'rotation_period');
+      userEvent.selectOptions(comparison, 'igual a');
+      userEvent.type(number, '23');
       userEvent.click(button);
     })
     const buttonFilter = screen.getByRole('button', {
       name: /apagar filtro/i
     })
+    const tatooine = screen.getByRole('cell', {
+      name: /tatooine/i
+    });
+    const hoth = screen.getByRole('cell', {
+      name: /hoth/i
+    });
+    const dagobah = screen.getByRole('cell', {
+      name: /dagobah/i
+    });
     expect(buttonFilter).toBeInTheDocument();
-
+    // expect(planetas.length).toEqual(6);
+    expect(tatooine).toBeInTheDocument();
+    expect(hoth).toBeInTheDocument();
+    expect(dagobah).toBeInTheDocument();
+    userEvent.click(buttonFilter);
+    const bespin = screen.getByRole('cell', {
+      name: /bespin/i
+    });
+    expect(bespin).toBeInTheDocument();
   })
+
+  test("Testa mais de um filtro", async () => {
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalled()
+    });
+    const column = screen.getByTestId("column-filter");
+    const comparison = screen.getByTestId("comparison-filter");
+    const number = screen.getByTestId("value-filter");
+    const button = screen.getByTestId("button-filter");
+
+    act(() => {
+      userEvent.selectOptions(column, "diameter");
+      userEvent.selectOptions(comparison, 'maior que');
+      userEvent.type(number, '8900');
+      userEvent.click(button);
+      userEvent.clear(number);
+      userEvent.selectOptions(column, "population");
+      userEvent.selectOptions(comparison, 'menor que');
+      userEvent.type(number, '10000000');
+      userEvent.click(button);
+    });
+
+    const filterSelected = screen.getAllByTestId("filter");
+    expect(filterSelected).toHaveLength(2);
+
+    const buttonRemoveFilter = screen.getByRole('button', {
+      name: /apagar filtro/i
+    });
+    userEvent.click(buttonRemoveFilter[1]);
+    expect(filterSelected).toHaveLength(1);
+  });
+
 });
  
