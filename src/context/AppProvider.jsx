@@ -74,6 +74,7 @@ function AppProvider({ children }) {
       setPlanetsFilteredState(dataPlanet.results);
     }
   };
+    //aeeee
     // if (idColumn.comparison === 'maior que') {
     //   const newPlanetList = selected.map((e) => {
     //   const planetsFiltered = dataPlanet.results.filter((planetas) => (
